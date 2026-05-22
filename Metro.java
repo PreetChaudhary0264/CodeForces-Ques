@@ -34,35 +34,35 @@ public class Metro {
     }
 }
 
-class FastReaderM {
-    BufferedReader br;
-    StringTokenizer st;
-
-    public FastReaderM() {
-        br = new BufferedReader(new InputStreamReader(System.in));
-    }
-
-    String next() throws IOException {
-        while (st == null || !st.hasMoreElements()) {
-            st = new StringTokenizer(br.readLine());
-        }
-        return st.nextToken();
-    }
-
-    int nextInt() throws IOException {
-        return Integer.parseInt(next());
-    }
-
-    long nextLong() throws IOException {
-        return Long.parseLong(next());
-    }
-    double nextDouble() throws IOException {
-        return Double.parseDouble(next());
-    }
-
-    String nextLine() throws IOException {
-        return br.readLine();
-    }
-}
+//class FastReaderM {
+//    BufferedReader br;
+//    StringTokenizer st;
+//
+//    public FastReaderM() {
+//        br = new BufferedReader(new InputStreamReader(System.in));
+//    }
+//
+//    String next() throws IOException {
+//        while (st == null || !st.hasMoreElements()) {
+//            st = new StringTokenizer(br.readLine());
+//        }
+//        return st.nextToken();
+//    }
+//
+//    int nextInt() throws IOException {
+//        return Integer.parseInt(next());
+//    }
+//
+//    long nextLong() throws IOException {
+//        return Long.parseLong(next());
+//    }
+//    double nextDouble() throws IOException {
+//        return Double.parseDouble(next());
+//    }
+//
+//    String nextLine() throws IOException {
+//        return br.readLine();
+//    }
+//}
 
 

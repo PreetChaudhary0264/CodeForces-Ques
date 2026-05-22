@@ -3,11 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class FastReaderM {
+class FastReaderM2 {
     BufferedReader br;
     StringTokenizer st;
 
-    public FastReaderM() {
+    public FastReaderM2() {
         br = new BufferedReader(new InputStreamReader(System.in));
     }
 
