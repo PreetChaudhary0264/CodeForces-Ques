@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class WBFHard {
@@ -30,53 +31,90 @@ public class WBFHard {
 
     public static void main(String[] args) throws IOException {
         FastReaderWBFHard sc = new FastReaderWBFHard();
+
         int test = sc.nextInt();
+
         while (test-- > 0) {
+
             int n = sc.nextInt();
-            long[] a = new long[n];
+
+            int[] a = new int[n];
+
             for (int i = 0; i < n; i++) {
                 a[i] = sc.nextInt();
             }
-            long[][] dp = new long[n][2];
-            int[][] ops = new int[n][2];
-            dp[0][0] = a[0];
-            dp[0][1] = -a[0];
-            long MIN_VAL = (long) -1e18;
+
+            long[] prefix = new long[n];
+            prefix[0] = Math.abs((long) a[0]);
 
             for (int i = 1; i < n; i++) {
-                long val1 = a[i];
-                dp[i][0] = dp[i - 1][0] + val1;
-                long o1 = MIN_VAL;
-                if (val1 > 0) {
-                    o1 = dp[i - 1][1] - val1;
-                }
-                if (o1 > dp[i][0]) {
-                    dp[i][0] = o1;
-                    ops[i][0] = 1;
-                }
-                long val2 = -a[i];
-                dp[i][1] = dp[i - 1][1] + val2;
-                long o2 = MIN_VAL;
-                if (val2 > 0) {
-                    o2 = dp[i - 1][0] - val2;
-                }
-                if (o2 > dp[i][1]) {
-                    dp[i][1] = o2;
-                    ops[i][1] = 1;
+                prefix[i] = prefix[i - 1] + Math.abs((long) a[i]);
+            }
+
+            long[] suffix = new long[n];
+            suffix[n - 1] = a[n - 1];
+
+            for (int i = n - 2; i >= 0; i--) {
+                suffix[i] = suffix[i + 1] + a[i];
+            }
+
+            long totalSum = 0;
+
+            for (int i = 0; i < n; i++) {
+                totalSum += a[i];
+            }
+
+            long ans = totalSum;
+            int bestIdx = -1;
+
+            for (int i = 0; i < n; i++) {
+
+                if (a[i] > 0) {
+
+                    long left = (i > 0 ? prefix[i - 1] : 0);
+                    long right = (i + 1 < n ? suffix[i + 1] : 0);
+
+                    long sum = left + right - a[i];
+
+                    if (sum > ans) {
+                        bestIdx = i;
+                        ans = sum;
+                    }
                 }
             }
-            ArrayList<Integer> ans = new ArrayList<>();
-            int currState = 0;
-            for (int i = n - 1; i >= 0; i--) {
-                if (ops[i][currState] == 1) {
-                    ans.add(i + 1);
-                    currState = 1 - currState;
+
+            if (bestIdx == -1) {
+                System.out.println(0);
+                System.out.println();
+                continue;
+            }
+
+            List<Integer> list = new ArrayList<>();
+
+            int change = 0;
+
+            for (int i = bestIdx - 1; i >= 0; i--) {
+
+                long cur = a[i];
+
+                if (change == 1) {
+                    cur = -cur;
+                }
+
+                if (cur > 0) {
+                    list.add(i + 1);
+                    change ^= 1;
                 }
             }
-            System.out.println(ans.size());
-            for (int i = 0; i < ans.size(); i++) {
-                System.out.print(ans.get(i) + (i == ans.size() - 1 ? "" : " "));
+
+            list.add(bestIdx + 1);
+
+            System.out.println(list.size());
+
+            for (int x : list) {
+                System.out.print((x) + " ");
             }
+
             System.out.println();
         }
     }

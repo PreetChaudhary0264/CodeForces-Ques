@@ -118,12 +118,12 @@ public class SubstringSearch {
         }
         int len = 1;
         int step = 1;
-        SuffixArray1.Entry[] entries = new SuffixArray1.Entry[n];
+        Entry[] entries = new Entry[n];
         while(len < n){
             for(int i = 0; i < n; i++){
                 int first = rank[step-1][i];
                 int second = i + len < n ? rank[step-1][i+len] : -1;
-                entries[i] = new SuffixArray1.Entry(first,second,i);
+                entries[i] = new Entry(first,second,i);
             }
             Arrays.sort(entries,(a, b)-> {
                 if(a.first != b.first)return Integer.compare(a.first,b.first);
