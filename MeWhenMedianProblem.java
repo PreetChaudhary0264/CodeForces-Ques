@@ -57,7 +57,7 @@ public class MeWhenMedianProblem {
             int ans = 0;
             int l = min;
             int r = max;
-            while(l < r){
+            while(l <= r){
                 int mid = l + (r - l) / 2;
 
                 int ones = 0;
@@ -84,7 +84,7 @@ public class MeWhenMedianProblem {
                     ans = mid;
                     l = mid + 1;
                 }else{
-                    r = mid;
+                    r = mid - 1;
                 }
             }
             System.out.println(ans);
