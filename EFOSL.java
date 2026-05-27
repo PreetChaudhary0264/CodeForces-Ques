@@ -22,7 +22,7 @@ public class EFOSL {
             }
 
             long ans = 0;
-            for (int i = 0; i < n; i++) { )
+            for (int i = 0; i < n; i++) {
                 ans += distinct[i];
             }
 
