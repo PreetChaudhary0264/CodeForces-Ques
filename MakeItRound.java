@@ -31,13 +31,19 @@ public class MakeItRound {
                 p5c++;
                 temp /= 5;
             }
-            long ans = 0;
+            long ans = (long) n * m;
             for(int dig = 18; dig >= 0; dig--){
                 int extra2 = Math.max(0,dig - p2c);
                 int extra5 = Math.max(0, dig - p5c);
 
-
+                long need = p2[extra2] * p5[extra5];
+                if(need <= m){
+                    long largestK = m - (m % need);
+                    ans = largestK * n;
+                    break;
+                }
             }
+            System.out.println(ans);
         }
     }
 }
