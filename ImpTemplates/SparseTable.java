@@ -25,7 +25,7 @@ public class SparseTable {
         }
         return st;
     }
-    private static int query(int l,int r,int[][] st){
+    private static int querySparse(int l,int r,int[][] st){
         int len = r-l+1;
 
 //        int k = 31 - Integer.numberOfLeadingZeros(len);      //int k = log2(len);
