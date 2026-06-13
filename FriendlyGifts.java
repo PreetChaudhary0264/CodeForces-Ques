@@ -1,15 +1,6 @@
 import java.util.*;
 
 public class FriendlyGifts {
-    static class Subarray {
-        int l, r, min;
-        public Subarray(int l, int r, int min) {
-            this.l = l;
-            this.r = r;
-            this.min = min;
-        }
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int test = sc.nextInt();
@@ -20,51 +11,53 @@ public class FriendlyGifts {
             for (int i = 0; i < n; i++) {
                 a[i] = sc.nextInt();
             }
-            List<Subarray>[] lists = new ArrayList[n + 1];
-            for (int i = 1; i <= n; i++) {
-                lists[i] = new ArrayList<>();
-            }
-            boolean[] seen = new boolean[n + 1];
-            for (int i = 0; i < n; i++) {
-                int min = a[i];
+            int[][] mini = new int[n][n/2 + 3];
+            for(int[] r : mini)Arrays.fill(r,-1);
+            for(int i = 0; i < n; i++){
                 int max = a[i];
-                for (int j = i; j < n; j++) {
-                    if (seen[a[j]]) {
-                        for (int k = i; k < j; k++) seen[a[k]] = false;
-                        break;
+                int min = a[i];
+                boolean[] visited = new boolean[n + 3];
+                visited[a[i]] = true;
+                for(int j = i; j < n; j++){
+                    if(j > i){
+                        if(visited[a[j]])break;
+                        visited[a[j]] = true;
+                        max = Math.max(max,a[j]);
+                        min = Math.min(min,a[j]);
                     }
-                    seen[a[j]] = true;
-                    min = Math.min(min, a[j]);
-                    max = Math.max(max, a[j]);
                     int len = j - i + 1;
-                    if (max - min == len - 1) {
-                        lists[len].add(new Subarray(i, j, min));
-                    }
-                    if (j == n - 1) {
-                        for (int k = i; k <= j; k++) seen[a[k]] = false;
+                    if(len > n/2)break;
+
+                    if(len - 1 == (max-min)){
+                        mini[i][len] = min;
                     }
                 }
             }
+            ArrayList<Integer>[] same = new ArrayList[n+1];
+            for (int i = 0; i <= n; i++) {
+                 same[i] = new ArrayList<>();
+            }
             int ans = 0;
-            for (int len = n / 2; len >= 1; len--) {
-                List<Subarray> currentLengthSegments = lists[len];
-                boolean found = false;
-                for (int i = 0; i < currentLengthSegments.size(); i++) {
-                    Subarray seg1 = currentLengthSegments.get(i);
-                    for (int j = i + 1; j < currentLengthSegments.size(); j++) {
-                        Subarray seg2 = currentLengthSegments.get(j);
-                        if (Math.abs(seg1.min - seg2.min) == len) {
-                            if (seg1.r < seg2.l || seg2.r < seg1.l) {
-                                found = true;
-                                break;
+            outer : for(int len = n/2; len >= 1; len--){
+
+                for(int i = 0; i <= n; i++)same[i].clear();
+
+                for(int i = 0; i < n; i++){
+                    if(mini[i][len] != -1)same[mini[i][len]].add(i);
+                }
+
+                for(int i = 0; i <= n-len; i++){
+                    int minValue = mini[i][len];
+                    if (minValue == -1) continue;
+                    int nextMin = minValue + len;
+                    if(nextMin <= n){
+                        for(int idx : same[nextMin]){
+                            if(i >= idx + len || idx >= i + len){
+                                ans = len;
+                                break outer;
                             }
                         }
                     }
-                    if (found) break;
-                }
-                if (found) {
-                    ans = len;
-                    break;
                 }
             }
             System.out.println(ans);
