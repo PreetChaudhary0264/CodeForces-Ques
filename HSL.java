@@ -15,7 +15,6 @@ public class HSL {
                     dp[h][i][j] = 1;
                 }
             }
-
             for(int count = h-1; count >= 0; count--){
                 for(int s = 1; s <= S; s++){
                     for(int used = l; used >= 0; used--){
