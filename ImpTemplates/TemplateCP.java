@@ -150,6 +150,48 @@ public class TemplateCP {
 
 
     public static void main(String[] args) {
-
+        Scanner sc = new Scanner(System.in);
+        int test = sc.nextInt();
+        while (test-- > 0) {
+            int n = sc.nextInt();
+            Map<Integer,List<Integer>> mpp = new HashMap<>();
+            for(int i = 2; i <= n; i++){
+                int val = sc.nextInt();
+                mpp.computeIfAbsent(val, k -> new ArrayList<>()).add(i);
+            }
+            int m = sc.nextInt();
+            Set<Integer> set = new HashSet<>();
+            for(int i  =0; i < m; i++)set.add(sc.nextInt());
+            List<Integer> cameras = new ArrayList<>();
+            solve(1, mpp, set, cameras);
+            System.out.print(cameras.size() + " ");
+            for (int cam : cameras) {
+                System.out.print(cam + " ");
+            }
+            System.out.println();
+        }
+    }
+    static int solve(int u, Map<Integer, List<Integer>> mpp, Set<Integer> set, List<Integer> cameras) {
+        int isDam = set.contains(u) ? 1 : 0;
+        List<Integer> pNodes = new ArrayList<>();
+        if (mpp.containsKey(u)) {
+            for (int v : mpp.get(u)) {
+                int dic = solve(v, mpp, set, cameras);
+                if (dic > 0) {
+                    pNodes.add(v);
+                    isDam += dic;
+                }
+            }
+        }
+        if (!pNodes.isEmpty()) {
+            if (set.contains(u)) {
+                cameras.addAll(pNodes);
+            } else {
+                for (int i = 1; i < pNodes.size(); i++) {
+                    cameras.add(pNodes.get(i));
+                }
+            }
+        }
+        return isDam;
     }
 }
